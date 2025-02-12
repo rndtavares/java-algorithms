@@ -6,7 +6,8 @@ public class Quicksort {
 
   static void quickSort(int[] array, int lowIndex, int highIndex) {
     if (lowIndex < highIndex) {
-      int partitionIndex = partition(array, lowIndex, highIndex);
+//      int partitionIndex = partition(array, lowIndex, highIndex);
+      int partitionIndex = partitionWithTwoPointers(array, lowIndex, highIndex);
 
       quickSort(array, lowIndex, partitionIndex - 1);
       quickSort(array, partitionIndex + 1, highIndex);
@@ -25,6 +26,27 @@ public class Quicksort {
     }
     swap(array, i + 1, highIndex);
     return (i + 1);
+  }
+
+  static int partitionWithTwoPointers(int[] array, int lowIndex, int highIndex) {
+    int pivot = array[highIndex];
+    int leftPointer = lowIndex;
+    int rightPointer = highIndex - 1;
+
+    while (leftPointer < rightPointer) {
+      while (array[leftPointer] <= pivot && leftPointer < rightPointer)
+        leftPointer++;
+      while (array[rightPointer] >= pivot && leftPointer < rightPointer)
+        rightPointer--;
+      swap(array, leftPointer, rightPointer);
+    }
+
+    if(array[leftPointer] > array[highIndex])
+      swap(array, leftPointer, highIndex);
+    else
+      leftPointer = highIndex;
+
+    return leftPointer;
   }
 
   static void swap(int[] arr, int i, int j) {
